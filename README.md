@@ -4,68 +4,202 @@
 **Name: Kirtan D Makwana**  
 **ID: 202001137**  
 
-## Creating a new Eclipse project, and within the project create a package and defining the class
 
-<img src="https://user-images.githubusercontent.com/95064151/233036757-48d69020-3270-44bc-9c8b-c8443862f8ff.png">
 
-## Adding the Test Case
+# Lab Exercises
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-    public class BoaTest {
-      Boa jen;
-      Boa ken;
+public class BoaTest {
+   
+    @Test
+    public void testIsHealthy() {
+        Boa boa1 = new Boa("Sneaky", 6, "granola bars");
+        assertTrue(boa1.isHealthy());
+       
+        Boa boa2 = new Boa("Slithery", 8, "pizza");
+        assertFalse(boa2.isHealthy());
+    }
+   
+    @Test
+    public void testFitsInCage() {
+        Boa boa1 = new Boa("Slinky", 4, "mice");
+        assertTrue(boa1.fitsInCage(5));
+        assertFalse(boa1.fitsInCage(3));
+       
+        Boa boa2 = new Boa("Curly", 10, "rabbits");
+        assertTrue(boa2.fitsInCage(12));
+        assertFalse(boa2.fitsInCage(9));
+    }
+}
 
-      @Before
-      public void setUp() throws Exception {
+
+The isHealthy method of the Boa class is being tested in the first test case. In order to confirm that isHealthy returns true for the first object and false for the second, we construct two Boa objects with distinct favourite foods.
+
+The fitsInCage method of the Boa class is being tested in the second test scenario. Two Boa objects are made, and their compatibility with various-sized cages is tested. The first boa should fit in a cage that is 5 inches long but not 3, and the second boa should fit in a cage that is 12 inches long but not 9.
+
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class BoaTest {
+   
+    private Boa jen;
+    private Boa ken;
+   
+    @Before
+    public void setUp() throws Exception {
         jen = new Boa("Jennifer", 2, "grapes");
-        ken = new Boa ("Kenneth", 3, "granola bars");
-      }
+        ken = new Boa("Kenneth", 3, "granola bars");
+    }
+   
+    @Test
+    public void testIsHealthy() {
+        assertTrue(jen.isHealthy());
+        assertTrue(ken.isHealthy());
+    }
+   
+    @Test
+    public void testFitsInCage() {
+        assertTrue(jen.fitsInCage(3));
+        assertFalse(ken.fitsInCage(2));
+    }
+}
 
-      @After
-      public void tearDown() throws Exception {
-      }
+To the BoaTest class, we added private fields for Jen and Ken, and we initialised them in the setUp function. In order to use these Boa objects for testing, we also changed the testIsHealthy and testFitsInCage methods.
 
-      @Test
-        public void testIsHealthy() {
-            assertTrue(ken.isHealthy()); // kens favourite food is granola bars
-            assertFalse(jen.isHealthy());
-        }
+Any changes made to the Boa objects during a test will not affect the objects used in other tests because the setUp function will be called prior to each test procedure.
 
-        @Test
-        public void testFitsInCage() {
-            assertFalse(ken.fitsInCage(2));
-            assertFalse(ken.fitsInCage(3));
-            assertTrue(ken.fitsInCage(5));
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-            assertFalse(jen.fitsInCage(1));
-            assertFalse(jen.fitsInCage(2));
-            assertTrue(jen.fitsInCage(3));
-        }
+public class BoaTest {
+   
+    private Boa jen;
+    private Boa ken;
+   
+    @Before
+    public void setUp() throws Exception {
+        jen = new Boa("Jennifer", 2, "grapes");
+        ken = new Boa("Kenneth", 3, "granola bars");
+    }
+   
+    @Test
+    public void testIsHealthy() {
+        assertTrue(jen.isHealthy());
+        assertTrue(ken.isHealthy());
+    }
+   
+    @Test
+    public void testFitsInCage() {
+        assertTrue(jen.fitsInCage(3));
+        assertFalse(ken.fitsInCage(2));
+    }
+}
+To ensure that the isHealthy method returns true for both Boa objects, we added assertions to the testIsHealthy method. To ensure that the fitsInCage method produces the anticipated outcomes for the Boa objects, we also added assertions to the testFitsInCage method.
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class BoaTest {
+   
+    private Boa jen;
+    private Boa ken;
+   
+    @Before
+    public void setUp() throws Exception {
+        jen = new Boa("Jennifer", 2, "grapes");
+        ken = new Boa("Kenneth", 3, "granola bars");
+    }
+   
+    @Test
+    public void testIsHealthy() {
+        assertTrue(jen.isHealthy());
+        assertTrue(ken.isHealthy());
+    }
+   
+    @Test
+    public void testFitsInCage() {
+        assertFalse(jen.fitsInCage(1)); // cage length less than boa length
+        assertTrue(jen.fitsInCage(2)); // cage length equal to boa length
+        assertTrue(jen.fitsInCage(3)); // cage length greater than boa length
+       
+        assertFalse(ken.fitsInCage(2)); // cage length less than boa length
+        assertTrue(ken.fitsInCage(3)); // cage length equal to boa length
+        assertTrue(ken.fitsInCage(4)); // cage length greater than boa length
+    }
+}
+To ensure that the fitsInCage method delivers the anticipated results for both Jen and Ken when the cage length is less than, equal to, and more than the length of the boa, we added assertions to the testFitsInCage method in this example.
+
+Because it tests the fitsInCage method's behaviour for various input values, it should be noted that the testFitsInCage method is now more reliable.
+
+
+public class Boa {
+    private String name;
+    private int length; // the length of the boa, in feet
+    private String favoriteFood;
+
+    public Boa(String name, int length, String favoriteFood) {
+        this.name = name;
+        this.length = length;
+        this.favoriteFood = favoriteFood;
     }
 
-## Running the Test Case
+    // returns true if this boa constrictor is healthy
+    public boolean isHealthy() {
+        return this.favoriteFood.equals("granola bars");
+    }
 
-<img src="https://user-images.githubusercontent.com/95064151/233039273-d00304f8-2deb-4061-af0c-b76a2254d573.png">
+    // returns true if the length of this boa constrictor is
+    // less than the given cage length
+    public boolean fitsInCage(int cageLength) {
+        return this.length < cageLength;
+    }
 
-## Adding a new method to the Boa class
+    // produces the length of the Boa in inches
+    public int lengthInInches() {
+        return this.length * 12;
+    }
+}
 
-	public int lengthInInches(){
-		// 1 foot is 12 inches
-		return this.length*12;
-	}
 
-<img src="https://user-images.githubusercontent.com/95064151/233043524-77bdff56-2e7b-4f43-bd8a-0ca06593abf9.png">
+Here is the updated code for the BoaTest class with the new testLengthInInches() method:
 
-## Adding new test cases to test lengthInInches()
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+public class BoaTest {
+    private Boa jen;
+    private Boa ken;
+
+    @Before
+    public void setUp() throws Exception {
+        jen = new Boa("Jennifer", 2, "grapes");
+        ken = new Boa("Kenneth", 3, "granola bars");
+    }
 
     @Test
-    public void testlengthInInches() {
-    	assertEquals("error in lengthInInches()",  36, ken.lengthInInches());
-    	assertNotEquals("error in lengthInInches()",  35, ken.lengthInInches());
-        
-    	assertEquals("error in lengthInInches()",  24, jen.lengthInInches());
-    	assertNotEquals("error in lengthInInches()",  30, jen.lengthInInches());
+    public void testIsHealthy() {
+        assertFalse(jen.isHealthy());
+        assertTrue(ken.isHealthy());
     }
-    
-## Running the new Test Case
 
-<img src="https://user-images.githubusercontent.com/95064151/233043180-b2f14800-de7b-4d43-a372-2e3cfdc44d44.png">
+    @Test
+    public void testFitsInCage() {
+        assertTrue(jen.fitsInCage(24));
+        assertFalse(jen.fitsInCage(16));
+        assertTrue(ken.fitsInCage(36));
+        assertTrue(ken.fitsInCage(24));
+        assertFalse(ken.fitsInCage(18));
+    }
+
+    @Test
+    public void testLengthInInches() {
+        assertEquals(24, jen.lengthInInches());
+        assertEquals(36, ken.lengthInInches());
+    }
+}
